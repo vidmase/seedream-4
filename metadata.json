@@ -1,0 +1,5 @@
+{
+  "name": "Seedream Image Editor",
+  "description": "An intuitive web application to edit images using the powerful Seedream V4 Edit API. Provide a prompt and image URLs to generate stunningly edited visuals.",
+  "requestFramePermissions": []
+}
