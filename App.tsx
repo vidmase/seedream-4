@@ -492,18 +492,34 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen font-sans">
-      <main className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-        <header className="text-center mb-10">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-            Seedream Image Editor
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen font-sans relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 via-transparent to-secondary-500/20"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <main className="relative z-10 max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+        <header className="text-center mb-12 animate-fade-in">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-primary-500 to-secondary-600 rounded-2xl mb-6 shadow-2xl animate-bounce-in">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h1 className="text-5xl sm:text-6xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 mb-4">
+            Seedream Studio
           </h1>
-          <p className="mt-4 text-lg text-gray-400">
-            Edit images with AI using the Seedream V4 Edit model.
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            Transform your ideas into stunning visuals with AI-powered image editing
           </p>
+          <div className="flex items-center justify-center gap-2 mt-4 text-sm text-gray-400">
+            <div className="w-2 h-2 bg-accent-500 rounded-full animate-pulse"></div>
+            <span>Powered by Seedream V4 Edit</span>
+          </div>
         </header>
         
-        <div className="bg-gray-800 p-8 rounded-2xl shadow-2xl">
+        <div className="bg-gray-800/30 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-gray-700/50 animate-slide-up">
           <form onSubmit={handleSubmit} className="space-y-6">
             <Textarea
               label="Prompt"
@@ -512,6 +528,14 @@ const App: React.FC = () => {
               onChange={(e) => setPrompt(e.target.value)}
               required
               maxLength={5000}
+              showCharCount={true}
+              placeholder="Describe what you want to create or edit in your image..."
+              helperText="Be specific about colors, style, objects, and composition for best results"
+              icon={
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              }
             />
             
             <ImageUploader 
@@ -529,6 +553,12 @@ const App: React.FC = () => {
                 options={IMAGE_SIZE_OPTIONS}
                 value={imageSize}
                 onChange={(e) => setImageSize(e.target.value as ImageSize)}
+                helperText="Choose the aspect ratio for your generated image"
+                icon={
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                }
               />
               <Select
                 label="Image Resolution"
@@ -536,22 +566,50 @@ const App: React.FC = () => {
                 options={IMAGE_RESOLUTION_OPTIONS}
                 value={imageResolution}
                 onChange={(e) => setImageResolution(e.target.value as ImageResolution)}
+                helperText="Higher resolution = better quality but slower generation"
+                icon={
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                }
               />
             </div>
             
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               <div>
-                  <label htmlFor="max-images" className="block text-sm font-medium text-gray-300 mb-2">Max Images: {maxImages}</label>
-                  <input
-                    type="range"
-                    id="max-images"
-                    min="1"
-                    max="6"
-                    step="1"
-                    value={maxImages}
-                    onChange={(e) => setMaxImages(parseInt(e.target.value, 10))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                  />
+               <div className="space-y-2">
+                  <label htmlFor="max-images" className="block text-sm font-semibold text-gray-200 mb-2 flex items-center gap-2">
+                    <span className="text-primary-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      </svg>
+                    </span>
+                    Max Images: <span className="text-primary-400 font-bold">{maxImages}</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="range"
+                      id="max-images"
+                      min="1"
+                      max="6"
+                      step="1"
+                      value={maxImages}
+                      onChange={(e) => setMaxImages(parseInt(e.target.value, 10))}
+                      className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
+                      style={{
+                        background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${((maxImages - 1) / 5) * 100}%, #374151 ${((maxImages - 1) / 5) * 100}%, #374151 100%)`
+                      }}
+                    />
+                    <div className="flex justify-between text-xs text-gray-400 mt-1">
+                      <span>1</span>
+                      <span>6</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    More images = more variety but longer processing time
+                  </p>
                </div>
               <Input
                 label="Seed (Optional)"
@@ -560,18 +618,30 @@ const App: React.FC = () => {
                 placeholder="e.g., 42"
                 value={seed}
                 onChange={(e) => setSeed(e.target.value)}
+                helperText="Use the same seed to reproduce similar results"
+                icon={
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM7 3H5a2 2 0 00-2 2v12a4 4 0 004 4h2a4 4 0 004-4V5a2 2 0 00-2-2H9a2 2 0 00-2 2z" />
+                  </svg>
+                }
               />
             </div>
             
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? (
-                <span className="flex items-center justify-center">
+            <Button 
+              type="submit" 
+              disabled={isLoading}
+              size="lg"
+              icon={
+                isLoading ? (
                   <Spinner />
-                  {loadingMessage}
-                </span>
-              ) : (
-                'Generate Images'
-              )}
+                ) : (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                )
+              }
+            >
+              {isLoading ? loadingMessage || 'Processing...' : 'Generate Images'}
             </Button>
           </form>
         </div>
@@ -584,8 +654,28 @@ const App: React.FC = () => {
         />
 
       </main>
-      <footer className="text-center py-6 text-gray-500 text-sm">
-        <p>Built with React & Tailwind CSS</p>
+      <footer className="relative z-10 text-center py-8 text-gray-400 text-sm border-t border-gray-800/50">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-center gap-6 mb-4">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-accent-500 rounded-full animate-pulse"></div>
+              <span>AI-Powered</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Lightning Fast</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>High Quality</span>
+            </div>
+          </div>
+          <p className="text-gray-500">Built with ❤️ using React, TypeScript & Tailwind CSS</p>
+        </div>
       </footer>
       
       {zoomedImageUrl && (
